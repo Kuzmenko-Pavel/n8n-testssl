@@ -18,8 +18,7 @@
     ]
   },
   "include": [
-    "nodes/**/*.ts",
-    "test/**/*.ts"
+    "nodes/**/*.ts"
   ],
   "exclude": [
     "dist",

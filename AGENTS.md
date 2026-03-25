@@ -222,9 +222,11 @@ npm run test
 
 Notes:
 
+- The main build/dev/lint flow now goes through `n8n-node`.
 - The test command is intentionally `node --import tsx --test test/unit/*.test.ts test/smoke/*.test.ts`.
 - Do not switch it back to `**` globs unless you also prove CI shell expansion is correct.
 - CI already caught this once.
+- `scan-community-package` is not a local static checker for the working tree. It analyzes a package by name from npm, so treat it as a post-publish or prerelease verification step.
 
 ## CI/CD Expectations
 

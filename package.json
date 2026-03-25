@@ -32,14 +32,15 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc --project tsconfig.json && node scripts/copy-assets.mjs",
-    "dev": "tsc --watch --project tsconfig.json",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "build": "n8n-node build",
+    "dev": "n8n-node dev --custom-user-folder /tmp/n8n-node-cli-testssl",
+    "lint": "n8n-node lint && eslint .",
+    "lint:fix": "n8n-node lint --fix && eslint . --fix",
     "test": "node --import tsx --test test/unit/*.test.ts test/smoke/*.test.ts",
     "verify:vendor": "node scripts/verify-vendor.mjs",
     "sync:upstream": "node scripts/sync-upstream.mjs",
     "fix:vendor-perms": "node scripts/fix-vendor-perms.mjs",
+    "scan:package": "scan-community-package n8n-nodes-testssl",
     "release": "standard-version",
     "prepack": "npm run build && npm run verify:vendor"
   },
@@ -55,16 +56,18 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@n8n/node-cli": "^0.23.1",
+    "@n8n/scan-community-package": "^0.12.0",
     "@types/node": "^22.13.10",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0",
     "eslint": "^9.21.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.3",
+    "n8n-workflow": "^1.82.0",
     "prettier": "^3.5.3",
     "standard-version": "^9.5.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2",
-    "n8n-workflow": "^1.82.0"
+    "typescript": "^5.8.2"
   },
   "engines": {
     "node": ">=20.0.0",

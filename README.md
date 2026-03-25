@@ -197,6 +197,7 @@ The raw upstream severity is preserved in each normalized finding.
 
 ```bash
 npm ci
+npm run lint
 npm run verify:vendor
 npm run build
 npm run test
@@ -205,10 +206,76 @@ npm run test
 Useful maintainer commands:
 
 ```bash
+npm run dev
 npm run sync:upstream
 npm run fix:vendor-perms
 npm run lint:fix
 ```
+
+## Starter-Compatible Local DX
+
+This repository now uses the official `n8n-node` development tooling for the main build and development loop.
+
+### Start n8n with the node loaded
+
+```bash
+npm install
+npm run dev
+```
+
+`npm run dev` runs `n8n-node dev`, which:
+
+- builds the node
+- starts a local n8n instance with this package loaded
+- rebuilds when source files change
+- uses an isolated development user folder in `/tmp/n8n-node-cli-testssl`
+
+Open the URL printed by the command, usually `http://localhost:5678`.
+
+Search for the node by node name:
+
+- `TestSSL`
+
+Do not search by package name.
+
+### What to check during local development
+
+- the node appears in the picker
+- parameters render correctly
+- scans run on a Linux `x86_64` host with `/bin/bash` available
+- summary, normalized findings, and raw JSON attachment still work
+- vendored runtime files are present and executable
+
+### Local package-style testing without publishing to npm
+
+For a packaging check closer to a real installation:
+
+```bash
+npm run build
+npm pack
+```
+
+Then install the generated tarball into a local n8n custom extensions directory and start n8n there.
+
+### Community package scanner
+
+The official package scanner can be run with:
+
+```bash
+npm run scan:package
+```
+
+Important:
+
+- `@n8n/scan-community-package` checks a package by name in the npm registry
+- it is not a purely local scanner for an unpublished working tree
+- use it after publishing, or against a published prerelease package
+
+## Node And Tooling Baseline
+
+- Self-hosted runtime target: Node.js 20+
+- n8n docs currently describe a newer Node baseline for the official node development environment
+- this repository uses `n8n-node` for developer experience, but the package remains a self-hosted local-process node rather than a verified-cloud-compatible node
 
 ## Release Process
 
