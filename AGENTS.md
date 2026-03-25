@@ -218,6 +218,7 @@ npm run verify:vendor
 npm run lint
 npm run build
 npm run test
+npm run smoke:pack
 ```
 
 Notes:
@@ -226,6 +227,7 @@ Notes:
 - The test command is intentionally `node --import tsx --test test/unit/*.test.ts test/smoke/*.test.ts`.
 - Do not switch it back to `**` globs unless you also prove CI shell expansion is correct.
 - CI already caught this once.
+- `smoke:pack` is the main local check that the tarball contains the built node and vendored runtime in an installable shape.
 - `scan-community-package` is not a local static checker for the working tree. It analyzes a package by name from npm, so treat it as a post-publish or prerelease verification step.
 
 ## CI/CD Expectations

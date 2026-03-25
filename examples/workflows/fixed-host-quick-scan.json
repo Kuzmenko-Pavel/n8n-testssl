@@ -1,0 +1,48 @@
+{
+  "name": "TestSSL Fixed Host Quick Scan",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        260,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "targetSource": "parameter",
+        "target": "example.com",
+        "operation": "quickScan",
+        "outputMode": "summaryAndNormalized",
+        "overallTimeoutSeconds": 180,
+        "severityFilter": "LOW",
+        "quiet": true
+      },
+      "id": "testssl-node",
+      "name": "TestSSL",
+      "type": "n8n-nodes-testssl.testSsl",
+      "typeVersion": 1,
+      "position": [
+        520,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "TestSSL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

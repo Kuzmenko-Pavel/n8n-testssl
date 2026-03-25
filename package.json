@@ -38,6 +38,7 @@
     "lint:fix": "n8n-node lint --fix && eslint . --fix",
     "test": "node --import tsx --test test/unit/*.test.ts test/smoke/*.test.ts",
     "verify:vendor": "node scripts/verify-vendor.mjs",
+    "smoke:pack": "node scripts/smoke-pack-install.mjs",
     "sync:upstream": "node scripts/sync-upstream.mjs",
     "fix:vendor-perms": "node scripts/fix-vendor-perms.mjs",
     "scan:package": "scan-community-package n8n-nodes-testssl",

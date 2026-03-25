@@ -32,6 +32,30 @@ Example:
 npm install n8n-nodes-testssl
 ```
 
+### Install As A Local Custom Extension Without Publishing
+
+You can validate the package like a real community node without publishing it to npm:
+
+```bash
+npm ci
+npm run build
+npm pack
+```
+
+Then install the generated tarball into a local n8n custom extensions directory:
+
+```bash
+mkdir -p ~/.n8n/custom
+cd ~/.n8n/custom
+npm init -y
+npm install /absolute/path/to/n8n-nodes-testssl-0.1.0.tgz
+n8n start
+```
+
+After n8n starts, open the editor and search for:
+
+- `TestSSL`
+
 ## Runtime Requirements
 
 - process spawning must be allowed
@@ -185,6 +209,11 @@ The raw upstream severity is preserved in each normalized finding.
 - STARTTLS posture check for `smtp` services with `field`-driven targets
 - Security-header monitoring with `headers` operation and `failOnSeverity=MEDIUM`
 
+Repository examples:
+
+- [examples/workflows/fixed-host-quick-scan.json](/home/kuzmenko-pavel/Project/Kuzmenko-Pavel/n8n-testssl/examples/workflows/fixed-host-quick-scan.json)
+- [examples/workflows/field-driven-starttls.json](/home/kuzmenko-pavel/Project/Kuzmenko-Pavel/n8n-testssl/examples/workflows/field-driven-starttls.json)
+
 ## Limitations
 
 - Linux `x86_64` only
@@ -257,6 +286,12 @@ npm pack
 
 Then install the generated tarball into a local n8n custom extensions directory and start n8n there.
 
+For a repository-level smoke check of the tarball contents:
+
+```bash
+npm run smoke:pack
+```
+
 ### Community package scanner
 
 The official package scanner can be run with:
@@ -281,12 +316,14 @@ Important:
 
 1. Run `npm ci`
 2. Run `npm run verify:vendor`
-3. Run `npm run build && npm run test`
-4. Run `npm run release`
-5. Push the release commit and tag
-6. GitHub Actions publishes the package on `v*` tags
+3. Run `npm run lint && npm run build && npm run test`
+4. Run `npm run smoke:pack`
+5. Run `npm run release`
+6. Push the release commit and tag
+7. GitHub Actions publishes the package on `v*` tags
 
 The publish workflow is prepared for npm provenance / OIDC trusted publishing and also works with `NPM_TOKEN` if configured.
+The repository intentionally keeps `standard-version` for release/version/changelog management while using `n8n-node` for day-to-day build, lint, and development workflow.
 
 ## Maintainer Workflow For Upstream Refresh
 
@@ -299,3 +336,38 @@ The publish workflow is prepared for npm provenance / OIDC trusted publishing an
 ## Licensing
 
 This repository is licensed under `GPL-2.0-only` because it distributes GPL-licensed upstream `testssl.sh` components. See [NOTICE.md](/home/kuzmenko-pavel/Project/Kuzmenko-Pavel/n8n-testssl/NOTICE.md) and [vendor/testssl/LICENSE](/home/kuzmenko-pavel/Project/Kuzmenko-Pavel/n8n-testssl/vendor/testssl/LICENSE).
+
+## Troubleshooting
+
+### The node does not appear in n8n
+
+- Verify the package was installed into the n8n custom extensions directory
+- Restart n8n after installation
+- Search for `TestSSL`, not `n8n-nodes-testssl`
+- Confirm `dist/nodes/TestSsl/TestSsl.node.js` exists in the installed package
+
+### `npm run dev` starts but n8n does not become ready
+
+- Confirm your environment can execute subprocesses
+- Confirm `/bin/bash` exists
+- Confirm the chosen dev user folder path under `/tmp/n8n-node-cli-testssl` is writable
+
+### Scans fail immediately on startup
+
+- Confirm the host is Linux `x86_64`
+- Confirm `vendor/testssl/testssl.sh` is executable
+- Confirm `vendor/testssl/bin/openssl.Linux.x86_64` is executable
+- Run `npm run verify:vendor`
+- Run `npm run fix:vendor-perms`
+
+### Package installs but scanning fails inside a container
+
+- Confirm the container allows process spawning
+- Confirm the filesystem allows executing bundled scripts and binaries
+- Confirm outbound network access to scan targets is available
+
+### `npm run scan:package` fails locally
+
+- This command checks a package by name in the npm registry
+- It is expected to fail for unpublished local work
+- Use it only after publishing or against a published prerelease

@@ -1,0 +1,74 @@
+{
+  "name": "TestSSL Field-Driven STARTTLS Scan",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"target\": \"mail.example.com:25\"\n}"
+      },
+      "id": "set-target",
+      "name": "Set Target",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "targetSource": "field",
+        "targetField": "target",
+        "operation": "starttls",
+        "starttlsProtocol": "smtp",
+        "outputMode": "all",
+        "overallTimeoutSeconds": 180,
+        "severityFilter": "LOW",
+        "quiet": true
+      },
+      "id": "testssl-node",
+      "name": "TestSSL",
+      "type": "n8n-nodes-testssl.testSsl",
+      "typeVersion": 1,
+      "position": [
+        720,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Target",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target": {
+      "main": [
+        [
+          {
+            "node": "TestSSL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
