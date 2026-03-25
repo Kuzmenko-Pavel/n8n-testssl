@@ -36,7 +36,7 @@
     "dev": "tsc --watch --project tsconfig.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "node --import tsx --test test/unit/**/*.test.ts test/smoke/**/*.test.ts",
+    "test": "node --import tsx --test test/unit/*.test.ts test/smoke/*.test.ts",
     "verify:vendor": "node scripts/verify-vendor.mjs",
     "sync:upstream": "node scripts/sync-upstream.mjs",
     "fix:vendor-perms": "node scripts/fix-vendor-perms.mjs",
