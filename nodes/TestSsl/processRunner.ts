@@ -114,6 +114,9 @@ export async function executeTestssl(
   let exitCode: number | null = null;
   let signal: NodeJS.Signals | null = null;
   let timedOut = false;
+  let finishedAt = startedAt;
+  let durationMs = 0;
+  let rawJsonText: string | null = null;
 
   try {
     const result = await new Promise<{ exitCode: number | null; signal: NodeJS.Signals | null }>(
@@ -154,36 +157,35 @@ export async function executeTestssl(
 
     exitCode = result.exitCode;
     signal = result.signal;
+
+    const finishedAtDate = new Date();
+    finishedAt = finishedAtDate.toISOString();
+    durationMs = finishedAtDate.getTime() - startedAtDate.getTime();
+    rawJsonText = await fs.readFile(rawJsonPath, 'utf8').catch(() => null);
+
+    if (timedOut) {
+      stderr = `${stderr}\nProcess timed out after ${options.overallTimeoutSeconds} seconds.`.trim();
+    }
+
+    return {
+      startedAt,
+      finishedAt,
+      durationMs,
+      exitCode,
+      signal,
+      stdout,
+      stderr,
+      rawJsonPath,
+      rawJsonText,
+      tempDir,
+    };
   } finally {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
+
+    if (!options.keepTempFilesForDebug) {
+      await fs.rm(tempDir, { recursive: true, force: true });
+    }
   }
-
-  const finishedAtDate = new Date();
-  const finishedAt = finishedAtDate.toISOString();
-  const durationMs = finishedAtDate.getTime() - startedAtDate.getTime();
-
-  const rawJsonText = await fs.readFile(rawJsonPath, 'utf8').catch(() => null);
-
-  if (!options.keepTempFilesForDebug) {
-    await fs.rm(tempDir, { recursive: true, force: true });
-  }
-
-  if (timedOut) {
-    stderr = `${stderr}\nProcess timed out after ${options.overallTimeoutSeconds} seconds.`.trim();
-  }
-
-  return {
-    startedAt,
-    finishedAt,
-    durationMs,
-    exitCode,
-    signal,
-    stdout,
-    stderr,
-    rawJsonPath,
-    rawJsonText,
-    tempDir,
-  };
 }

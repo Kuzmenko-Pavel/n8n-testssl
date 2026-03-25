@@ -35,6 +35,7 @@ import {
   ensureLinuxX64Support,
   getTargetFromSource,
   parseTargetParts,
+  resolveIpMode,
   validateCustomSafeChecks,
   validateHeaders,
   validateOptionalSocketPath,
@@ -88,6 +89,17 @@ export class TestSsl implements INodeType {
           (this.getNodeParameter('requestHeaders', itemIndex, {}) as {
             values?: RequestHeaderEntry[];
           }).values ?? [];
+        const ipMode = this.getNodeParameter(
+          'ipMode',
+          itemIndex,
+        ) as ResolvedExecutionOptions['ipMode'];
+        const customIp = validateOptionalSocketPath(
+          this.getNodeParameter('customIp', itemIndex, '') as string,
+          'Custom IP',
+        );
+        if (ipMode === 'custom') {
+          resolveIpMode(ipMode, customIp);
+        }
 
         const options: ResolvedExecutionOptions = {
           target: validatedTarget,
@@ -103,11 +115,8 @@ export class TestSsl implements INodeType {
           showEach: this.getNodeParameter('showEach', itemIndex) as boolean,
           ipv6: this.getNodeParameter('ipv6', itemIndex) as boolean,
           nodnsMode: this.getNodeParameter('nodnsMode', itemIndex) as ResolvedExecutionOptions['nodnsMode'],
-          ipMode: this.getNodeParameter('ipMode', itemIndex) as ResolvedExecutionOptions['ipMode'],
-          customIp: validateOptionalSocketPath(
-            this.getNodeParameter('customIp', itemIndex, '') as string,
-            'Custom IP',
-          ),
+          ipMode,
+          customIp,
           sneaky: this.getNodeParameter('sneaky', itemIndex) as boolean,
           idsFriendly: this.getNodeParameter('idsFriendly', itemIndex) as boolean,
           phoneOut: this.getNodeParameter('phoneOut', itemIndex) as boolean,

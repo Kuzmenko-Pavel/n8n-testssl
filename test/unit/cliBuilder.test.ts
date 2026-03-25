@@ -51,3 +51,13 @@ test('buildArgs maps quickScan and custom flags correctly', () => {
   assert.ok(args.includes('--grease'));
   assert.ok(args.includes('--proxy'));
 });
+
+test('buildArgs throws when custom ip mode is missing a custom IP', () => {
+  assert.throws(() =>
+    buildArgs({
+      ...baseInput,
+      ipMode: 'custom',
+      customIp: undefined,
+    }),
+  );
+});

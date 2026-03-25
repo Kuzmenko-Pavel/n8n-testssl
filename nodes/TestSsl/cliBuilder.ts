@@ -1,4 +1,5 @@
 import type { BuildArgsInput } from './types';
+import { resolveIpMode } from './validators';
 
 const operationArgs: Record<BuildArgsInput['operation'], string[]> = {
   quickScan: ['-p', '-S', '-h', '-U'],
@@ -52,8 +53,9 @@ export function buildArgs(input: BuildArgsInput): string[] {
     args.push('--nodns', input.nodnsMode);
   }
 
-  if (input.ipMode !== 'auto') {
-    args.push('--ip', input.ipMode === 'custom' ? input.customIp ?? '' : input.ipMode);
+  const resolvedIpMode = resolveIpMode(input.ipMode, input.customIp);
+  if (resolvedIpMode) {
+    args.push('--ip', resolvedIpMode);
   }
 
   if (input.sneaky) {

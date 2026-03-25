@@ -23,3 +23,10 @@ test('parseTargetParts extracts hostname and port', () => {
     port: 8443,
   });
 });
+
+test('parseTargetParts keeps bracketed IPv6 without duplicating closing bracket', () => {
+  assert.deepEqual(parseTargetParts('[2001:db8::1]'), {
+    hostname: '[2001:db8::1]',
+    port: 443,
+  });
+});

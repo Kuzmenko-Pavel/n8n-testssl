@@ -196,10 +196,13 @@ export function parseTargetParts(target: string): { hostname: string; port: numb
   const sanitized = target.startsWith('https://') ? target.slice(8) : target;
 
   if (sanitized.startsWith('[')) {
-    const [host, port] = sanitized.split(']:');
+    const closingBracketIndex = sanitized.indexOf(']');
+    const hostname = sanitized.slice(0, closingBracketIndex + 1);
+    const portSegment = sanitized.slice(closingBracketIndex + 1);
+
     return {
-      hostname: `${host}]`,
-      port: port ? Number(port) : 443,
+      hostname,
+      port: portSegment.startsWith(':') ? Number(portSegment.slice(1)) : 443,
     };
   }
 
