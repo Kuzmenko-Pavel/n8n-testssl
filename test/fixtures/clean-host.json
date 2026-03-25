@@ -1,0 +1,14 @@
+[
+  {
+    "id": "TLSv1_2",
+    "severity": "OK",
+    "finding": "TLS 1.2 is offered",
+    "ip": "93.184.216.34",
+    "port": "443"
+  },
+  {
+    "id": "HSTS",
+    "severity": "INFO",
+    "finding": "HSTS max-age 31536000"
+  }
+]

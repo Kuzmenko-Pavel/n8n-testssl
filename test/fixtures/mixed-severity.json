@@ -1,0 +1,22 @@
+[
+  {
+    "id": "proto_ssl3",
+    "severity": "NOT OK",
+    "finding": "SSLv3 offered"
+  },
+  {
+    "id": "header_hsts",
+    "severity": "WARN",
+    "finding": "Missing HSTS"
+  },
+  {
+    "id": "tls13",
+    "severity": "OK",
+    "finding": "TLS 1.3 offered"
+  },
+  {
+    "id": "cert_info",
+    "severity": "INFO",
+    "finding": "Certificate chain complete"
+  }
+]

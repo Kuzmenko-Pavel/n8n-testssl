@@ -1,0 +1,9 @@
+{
+  "findings": [
+    {
+      "id": "cipher_order",
+      "severity": "WARN",
+      "finding": "Server has weak cipher preference"
+    }
+  ]
+}

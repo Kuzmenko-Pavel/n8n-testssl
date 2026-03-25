@@ -1,0 +1,73 @@
+{
+  "name": "n8n-nodes-testssl",
+  "version": "0.1.0",
+  "description": "Self-hosted n8n community node for TLS/SSL testing with vendored testssl.sh",
+  "license": "GPL-2.0-only",
+  "homepage": "https://github.com/Kuzmenko-Pavel/n8n-testssl",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kuzmenko-Pavel/n8n-testssl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kuzmenko-Pavel/n8n-testssl/issues"
+  },
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "testssl",
+    "tls",
+    "ssl",
+    "security",
+    "self-hosted"
+  ],
+  "author": {
+    "name": "Pavel Kuzmenko"
+  },
+  "main": "dist/nodes/TestSsl/TestSsl.node.js",
+  "files": [
+    "dist",
+    "vendor/testssl",
+    "README.md",
+    "NOTICE.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.json && node scripts/copy-assets.mjs",
+    "dev": "tsc --watch --project tsconfig.json",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "node --import tsx --test test/unit/**/*.test.ts test/smoke/**/*.test.ts",
+    "verify:vendor": "node scripts/verify-vendor.mjs",
+    "sync:upstream": "node scripts/sync-upstream.mjs",
+    "fix:vendor-perms": "node scripts/fix-vendor-perms.mjs",
+    "release": "standard-version",
+    "prepack": "npm run build && npm run verify:vendor"
+  },
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [],
+    "nodes": [
+      "dist/nodes/TestSsl/TestSsl.node.js"
+    ]
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.3",
+    "prettier": "^3.5.3",
+    "standard-version": "^9.5.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "n8n-workflow": "^1.82.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

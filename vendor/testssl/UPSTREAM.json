@@ -1,0 +1,25 @@
+{
+  "upstreamRepo": "https://github.com/testssl/testssl.sh",
+  "upstreamRef": "v3.2.3",
+  "upstreamCommit": "d2d9d2a04120033a7d1e01e52d9b409168544cc6",
+  "upstreamVersion": "v3.2.3",
+  "fetchedAt": "2026-03-25T00:00:00.000Z",
+  "includedPaths": [
+    "testssl.sh",
+    "etc",
+    "bin/openssl.Linux.x86_64",
+    "bin/OPENSSL-LICENSE.txt",
+    "bin/Readme.md",
+    "LICENSE"
+  ],
+  "notes": [
+    "Curated Linux x86_64 runtime subset for the n8n community node package.",
+    "This file is refreshed by scripts/sync-upstream.mjs."
+  ],
+  "sha256": {
+    "testssl.sh": "e00873db4af25044c967f3b5d21a1064fb55da155003f329803dff2fc6138a55",
+    "bin/openssl.Linux.x86_64": "e2e993074c87e8df4ab8271185f9789b1dfb9f20d5dfe331824282af34902543",
+    "bin/OPENSSL-LICENSE.txt": "257fe1b542f846557d0fc938f4206d6c9a6334e2b571fa020e51f96377537120",
+    "LICENSE": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+  }
+}

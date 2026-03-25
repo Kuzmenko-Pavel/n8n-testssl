@@ -1,0 +1,19 @@
+[
+  {
+    "id": "TLSv1",
+    "severity": "HIGH",
+    "finding": "TLS 1.0 is enabled",
+    "port": "443"
+  },
+  {
+    "id": "heartbleed",
+    "severity": "CRITICAL",
+    "finding": "Vulnerable to Heartbleed",
+    "cve": "CVE-2014-0160"
+  },
+  {
+    "id": "HSTS",
+    "severity": "LOW",
+    "finding": "No HSTS header"
+  }
+]
